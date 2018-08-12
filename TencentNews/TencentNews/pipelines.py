@@ -32,3 +32,25 @@ class DuplicatesPipeline(object):
         else:
             self.links_seen.append(item['title'])
             return item
+
+from twisted.enterprise import adbapi
+import MySQLdb
+import MySQLdb.cursors
+from scrapy.crawler import Settings as settings
+class MysqlPipeline(object):
+    def __init__(self):
+        dbargs = dict(
+            host = '192.168.51.79' ,
+            db = 'test',
+            user = 'root', #replace with you user name
+            passwd = 'sz1544', # replace with you password
+            charset = 'utf8',
+            cursorclass = MySQLdb.cursors.DictCursor,
+            use_unicode = True,
+            )    
+        self.dbpool = adbapi.ConnectionPool('MySQLdb',**dbargs)
+    def process_item(self, item,spider):
+        res = self.dbpool.runInteraction(self.insert_into_table,item)
+        return item
+    def insert_into_table(self,conn,item):
+        conn.execute('insert into tencentnews(title,link,descs,timestamps,times) values(%s,%s,%s,%s,%s)', (item['title'],item['link'],item['desc'],item['timestamp'],item['time']))

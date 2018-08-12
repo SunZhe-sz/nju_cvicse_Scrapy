@@ -65,8 +65,9 @@ ROBOTSTXT_OBEY = False
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    'TencentNews.pipelines.JsonWithEncodingPipeline': 300,
+    'TencentNews.pipelines.JsonWithEncodingPipeline': 301,
     'TencentNews.pipelines.DuplicatesPipeline': 299,
+    'TencentNews.pipelines.MysqlPipeline': 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
