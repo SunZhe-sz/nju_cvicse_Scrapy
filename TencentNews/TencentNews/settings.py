@@ -90,3 +90,9 @@ ITEM_PIPELINES = {
 #HTTPCACHE_DIR = 'httpcache'
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
+
+#Mysql设置
+MYSQLHOST = '192.168.51.79'
+MYSQLDB = 'test'
+MYSQLUSER = 'root'#replace with you user name
+MYSQLPASSWORD = 'sz1544'# replace with you password

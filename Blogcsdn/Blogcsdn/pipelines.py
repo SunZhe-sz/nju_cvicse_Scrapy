@@ -36,14 +36,16 @@ class DuplicatesPipeline(object):
 from twisted.enterprise import adbapi
 import MySQLdb
 import MySQLdb.cursors
-from scrapy.crawler import Settings as settings
+#from scrapy.crawler import Settings as settings
+from scrapy.conf import settings
 class MysqlPipeline(object):
-    def __init__(self):
+    #def __init__(self):
+    def open_spider(self,spider):
         dbargs = dict(
-            host = '192.168.51.79' ,
-            db = 'test',
-            user = 'root', #replace with you user name
-            passwd = 'sz1544', # replace with you password
+            host = settings['MYSQLHOST'] ,
+            db = settings['MYSQLDB'],
+            user = settings['MYSQLUSER'], #replace with you user name
+            passwd = settings['MYSQLPASSWORD'], # replace with you password
             charset = 'utf8',
             cursorclass = MySQLdb.cursors.DictCursor,
             use_unicode = True,
@@ -54,3 +56,5 @@ class MysqlPipeline(object):
         return item
     def insert_into_table(self,conn,item):
         conn.execute('insert into tencentnews(title,link,descs,timestamps,times) values(%s,%s,%s,%s,%s)', (item['title'],item['link'],item['desc'],item['timestamp'],item['time']))
+    def close_spider(self,spider):
+        self.dbpool.close()
